@@ -3,7 +3,9 @@
 function push_to_git {
   git init
   git add .
-  git commit -m "Initial Commit"
+  echo "Commit Message?"
+  read msg
+  git commit -m "$msg"
   git remote add origin "https://github.com/$1/$2.git"
   git push -u origin main
   printf "\n========Done========\n"
