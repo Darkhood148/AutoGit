@@ -49,7 +49,7 @@ do
         echo "Enter repo description"
         read repo_description
         printf "\nCreating repo\n====================\n\n"
-        curl -H "Authorization: token $token" --data "{\"name\":\"$repo_name\", \"description\":\"$repo_description\"}" https://api.github.com/user/repos
+        curl -H "Authorization: token $token" --data "{\"name\":\"$repo_name\", \"description\":\"$repo_description\"}" https://api.github.com/user/repos > /dev/null
         printf "\n\n====================\nDone\n"
         echo "Enter \"y\" to make first commit."
         read ch
