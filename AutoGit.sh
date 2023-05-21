@@ -8,11 +8,20 @@ function push_to_git {
   git push -u origin main
   printf "\n========Done========\n"
 }
+function enter_credentials {
+        echo "Enter Token"
+        read token
+        touch $file_name
+        echo $token > $file_name
+        echo "Enter username associated with this token"
+        read username
+        echo $username >> $file_name
+}
 
 printf "~~~~~~~~Welcome To AutoGit~~~~~~~~\n\n"
 printf "\n====================\n\n"
 echo "Enter 1 to create new repository"
-echo "Enter 2 to manage personal tokens"
+echo "Enter 2 to edit personal token"
 echo "Enter anything else to exit"
 printf "\n====================\n"
 for (( ; ; ))
@@ -23,10 +32,8 @@ do
         if [[ -f $file_name ]]; then
             token=$(cat $file_name)
         else
-            echo "Looks like you don't have any token. Please enter one to use."
-            read token
-            touch $file_name
-            echo $token > $file_name
+            echo "Looks like you don't have any token."
+            enter_credentials
         fi
         echo "Enter repo name"
         read repo_name
@@ -35,5 +42,11 @@ do
         printf "\nCreating repo\n====================\n\n"
         curl -H "Authorization: token $token" --data "{\"name\":\"$repo_name\", \"description\":\"$repo_description\"}" https://api.github.com/user/repos
         printf "\n\n====================\nDone\n"
+        echo "Enter \"y\" to make first commit."
+        read ch
+        if [[ $ch == "y" ]]; then
+            username=$(cat $file_name | xargs | awk '{print $2}')
+            push_to_git $username $repo_name
+        fi
     fi
 done
