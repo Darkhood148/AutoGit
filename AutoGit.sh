@@ -22,6 +22,8 @@ function enter_credentials {
         echo "Enter username associated with this token"
         read username
         echo $username > $user_file
+        chmod 400 $user_file
+        chmod 400 $file_name
 }
 
 printf "~~~~~~~~Welcome To AutoGit~~~~~~~~\n\n"
