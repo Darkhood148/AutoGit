@@ -1,13 +1,17 @@
 #!/bin/bash
 
 function push_to_git {
-  git init
-  git add .
-  echo "Commit Message?"
-  read msg
-  git commit -m "$msg"
-  git remote add origin "https://github.com/$1/$2.git"
-  git push -u origin main
+    git init
+    git add .
+    git reset $file_name
+    git reset $user_file
+    git reset "AutoGit.sh"
+    git remote add origin "git@github.com:$1/$2.git"
+    echo "Commit Message?"
+    read msg
+    git commit . -m "$msg"
+    git branch -m master main
+    git push origin main
   printf "\n========Done========\n"
 }
 function enter_credentials {
@@ -51,6 +55,8 @@ do
         if [[ $ch == "y" ]]; then
             username=$(cat $user_file)
             push_to_git $username $repo_name
+        else
+            echo "Repo created without initial commit"
         fi
     fi
 done
