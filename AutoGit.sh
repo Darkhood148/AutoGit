@@ -48,7 +48,6 @@ do
         read repo_name
         echo "Enter repo description"
         read repo_description
-        printf $token
         printf "\nCreating repo\n====================\n\n"
         curl -H "Authorization: token $token" --data "{\"name\":\"$repo_name\", \"description\":\"$repo_description\"}" https://api.github.com/user/repos
         printf "\n\n====================\nDone\n"
